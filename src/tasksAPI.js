@@ -4,11 +4,12 @@
  * 
  */
 
-const express = require('express')
 const tasks = require('./tasksController.js');
-const defaultOptions = {
-	base: '/tasks'
+export const defaultOptions = {
+	base: '/tasks',
 };
+
+export const defaultMiddleware = [];
 
 /**
  * Module returns a builder function.
@@ -17,12 +18,12 @@ const defaultOptions = {
  * Express middleware function or multiple wrapped in one.
  * Callback arguments: request, response, next, parameters
  * @param server object // Required, hapi type server
- * @param middleware callback // Optional
  * @param options object // Extra settings
+ * @param middleware callback // Optional
  */
 module.exports = function(server, middleware, options){
-	// If middleware not supplied then options is at that parameter position.
-	if(!(middleware instanceof Function)) options = middleware;
+	// If middleware not supplied then provide default.
+	middleware = middleware || defaultMiddleware;
 
 	// If options not supplied then use default.
 	options = options || defaultOptions;
@@ -30,21 +31,52 @@ module.exports = function(server, middleware, options){
 	// Create route
 	server.route({
 		method: 'PUT',
-		path: '/'
+		path: options.base + '/',
+		config: {
+			pre: middleware,
+			handler: tasks.create(options)
+		}
 	});
-	server.put('/:id', tasks.create(middleware, options));
 
 	// Read route
-	server.get('/:id', tasks.read(middleware, options));
+	server.route({
+		method: 'GET',
+		path: options.base + '/{id?}',
+		config: {
+			pre: middleware,
+			handler: tasks.read(options)
+		}
+	});
 
 	// Update route
-	server.patch('/:id', tasks.update(middleware, options));
+	server.route({
+		method: 'PATCH',
+		path: options.base + '/{id?}',
+		config: {
+			pre: middleware,
+			handler: tasks.update(options)
+		}
+	});
 
 	// Delete route
-	server.delete('/:id', tasks.delete(middleware, options));
+	server.route({
+		method: 'DELETE',
+		path: options.base + '/{id?}',
+		config: {
+			pre: middleware,
+			handler: tasks.delete(options)
+		}
+	});
 
 	// List route
-	server.get('/', tasks.list(middleware, options));
+	server.route({
+		method: 'GET',
+		path: options.base + '/',
+		config: {
+			pre: middleware,
+			handler: tasks.list(options)
+		}
+	});
 
 	// Return the server.
 	return server;
