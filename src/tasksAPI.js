@@ -1,5 +1,14 @@
+/**
+ * Tasks API
+ * Author: Francis Carelse
+ * 
+ */
+
 const express = require('express')
 const tasks = require('./tasksController.js');
+const defaultOptions = {
+	base: '/tasks'
+};
 
 /**
  * Module returns a builder function.
@@ -7,28 +16,37 @@ const tasks = require('./tasksController.js');
  * 
  * Express middleware function or multiple wrapped in one.
  * Callback arguments: request, response, next, parameters
- * @param middleware callback
+ * @param server object // Required, hapi type server
+ * @param middleware callback // Optional
+ * @param options object // Extra settings
  */
-module.exports = function(middleware, options){
-	// New router instance to be used with this middleware.
-	const router = express.Router()
+module.exports = function(server, middleware, options){
+	// If middleware not supplied then options is at that parameter position.
+	if(!(middleware instanceof Function)) options = middleware;
+
+	// If options not supplied then use default.
+	options = options || defaultOptions;
 
 	// Create route
-	router.put('/:id', tasks.create(middleware, options));
+	server.route({
+		method: 'PUT',
+		path: '/'
+	});
+	server.put('/:id', tasks.create(middleware, options));
 
 	// Read route
-	router.get('/:id', tasks.read(middleware, options));
+	server.get('/:id', tasks.read(middleware, options));
 
 	// Update route
-	router.patch('/:id', tasks.update(middleware, options));
+	server.patch('/:id', tasks.update(middleware, options));
 
 	// Delete route
-	router.delete('/:id', tasks.delete(middleware, options));
+	server.delete('/:id', tasks.delete(middleware, options));
 
 	// List route
-	router.get('/', tasks.list(middleware, options));
+	server.get('/', tasks.list(middleware, options));
 
-	// Return the built router.
-	return router;
+	// Return the server.
+	return server;
 };
 
