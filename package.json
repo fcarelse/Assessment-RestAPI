@@ -2,7 +2,7 @@
   "name": "assessment-restapi",
   "version": "0.0.1",
   "description": "Task Rest API",
-  "main": "example.js",
+  "main": "src/tasksAPI.js",
   "directories": {
     "test": "test"
   },
