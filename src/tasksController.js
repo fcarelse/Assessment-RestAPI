@@ -8,9 +8,21 @@
 /**
  * Tasks Controller factory method
  */
-module.exports = function(middleware, options){
-	// If no middleware provided, but only options
-	if(!(middleware instanceof Function)) options = middleware;
-	if(!(options instanceof Object) || !options) options = {};
+export default function(middleware, options){
+	// If middleware not supplied then provide default.
+	middleware = middleware || defaultMiddleware;
+
+	// If options not supplied then use default.
+	options = options || defaultOptions;
+
+	// Controller to be returned
+	const Ctrl = {};
+
+	/**
+	 * Controller for Create request
+	 */
+	Ctrl.create = (request, reply)=>new Promise((resolve, reject)=>{
+		request.payload.task
+	})
 
 }
