@@ -27,6 +27,7 @@
   "homepage": "https://github.com/fcarelse/Assessment-RestAPI#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "jest": "^24.9.0"
+    "jest": "^24.9.0",
+    "knex": "^0.20.0"
   }
 }
