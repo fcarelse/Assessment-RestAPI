@@ -4,7 +4,7 @@
  *
  */
 import { defaultOptions, defaultDB, taskFields } from "./tasksAPI.js";
-import * as Knex from "kenx";
+import * as Knex from "knex";
 
 /**
  * Tasks Controller factory method
