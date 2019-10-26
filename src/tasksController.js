@@ -13,7 +13,7 @@ export default function(options) {
   // If options not supplied then use default.
   options = options || defaultOptions;
 
-  // If Data Access Object not supplied then use default.
+  // If Data Access Config not supplied then use default.
   options.configDB = options.configDB || defaultDB;
 
   // Controller to be returned
