@@ -9,22 +9,22 @@
  * Default database configuration
  */
 export const defaultDB = {
-  client: "mysql",
-  connection: {
-    host: "127.0.0.1",
-    user: "admin",
-    password: "admin",
-    database: "tasksapi",
-    charset: "utf8"
-  }
+	client: "mysql",
+	connection: {
+		host: "127.0.0.1",
+		user: "admin",
+		password: "admin",
+		database: "tasksapi",
+		charset: "utf8"
+	}
 };
 
 /**
  * Default Options to be used by router or controller
  */
 export const defaultOptions = {
-  base: "/tasks",
-  configDB: defaultDB
+	base: "/tasks",
+	configDB: defaultDB
 };
 
 /**
@@ -51,11 +51,11 @@ export const taskStages = ["Design", "Develop", "Test", "Deploy"];
  * Property value is javascript data type
  */
 export const taskFields = {
-  id: "number",
-  stage: "string",
-  status: "string",
-  title: "string",
-  content: "string"
+	id: "number",
+	stage: "string",
+	status: "string",
+	title: "string",
+	content: "string"
 };
 
 /**
@@ -65,34 +65,34 @@ export const taskFields = {
  * @param knex Knex type data access object
  */
 export const taskSchema = async knex => {
-  // Check if table exists
-  const exists = await knex.schema.hasTable("tasks");
+	// Check if table exists
+	const exists = await knex.schema.hasTable("tasks");
 
-  // Only if table does not exist then create it.
-  if (!exists)
-    await new Promise(resolve => {
-      knex.schema.createTable("tasks", function(tasks) {
-        tasks.increments("id").primary();
-        tasks.string("stage", 20);
-        tasks.string("status", 20);
-        tasks.string("title", 200);
-        tasks.text("content");
-        resolve(true);
-      });
-    });
+	// Only if table does not exist then create it.
+	if (!exists)
+		await new Promise(resolve => {
+			knex.schema.createTable("tasks", function(tasks) {
+				tasks.increments("id").primary();
+				tasks.string("stage", 20);
+				tasks.string("status", 20);
+				tasks.string("title", 200);
+				tasks.text("content");
+				resolve(true);
+			});
+		});
 
-  // Verify each critical field exists.
-  await new Promise(resolve => {
-    knex.schema.table("tasks", function(tasks) {
-      (async () => {
-        //Check for each Column
-        if (!(await tasks.hasColumn("id"))) tasks.increments("id").primary();
-        if (!(await tasks.hasColumn("stage"))) tasks.string("stage", 20);
-        if (!(await tasks.hasColumn("status"))) tasks.string("status", 20);
-        if (!(await tasks.hasColumn("title"))) tasks.string("title", 200);
-        if (!(await tasks.hasColumn("content"))) tasks.text("content");
-        resolve(true);
-      })();
-    });
-  });
+	// Verify each critical field exists.
+	await new Promise(resolve => {
+		knex.schema.table("tasks", function(tasks) {
+			(async () => {
+				//Check for each Column
+				if (!(await tasks.hasColumn("id"))) tasks.increments("id").primary();
+				if (!(await tasks.hasColumn("stage"))) tasks.string("stage", 20);
+				if (!(await tasks.hasColumn("status"))) tasks.string("status", 20);
+				if (!(await tasks.hasColumn("title"))) tasks.string("title", 200);
+				if (!(await tasks.hasColumn("content"))) tasks.text("content");
+				resolve(true);
+			})();
+		});
+	});
 };

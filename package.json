@@ -1,33 +1,33 @@
 {
-  "name": "assessment-restapi",
-  "version": "0.0.1",
-  "description": "Task Rest API",
-  "main": "src/tasksAPI.js",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "test": "jest"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/fcarelse/Assessment-RestAPI.git"
-  },
-  "keywords": [
-    "Task",
-    "Rest",
-    "API",
-    "Assessment"
-  ],
-  "author": "Francis Carelse",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/fcarelse/Assessment-RestAPI/issues"
-  },
-  "homepage": "https://github.com/fcarelse/Assessment-RestAPI#readme",
-  "dependencies": {
-    "express": "^4.17.1",
-    "jest": "^24.9.0",
-    "knex": "^0.20.0"
-  }
+	"name": "assessment-restapi",
+	"version": "0.0.1",
+	"description": "Task Rest API",
+	"main": "src/tasksAPI.js",
+	"directories": {
+		"test": "test"
+	},
+	"scripts": {
+		"test": "jest"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/fcarelse/Assessment-RestAPI.git"
+	},
+	"keywords": [
+		"Task",
+		"Rest",
+		"API",
+		"Assessment"
+	],
+	"author": "Francis Carelse",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/fcarelse/Assessment-RestAPI/issues"
+	},
+	"homepage": "https://github.com/fcarelse/Assessment-RestAPI#readme",
+	"dependencies": {
+		"express": "^4.17.1",
+		"jest": "^24.9.0",
+		"knex": "^0.20.0"
+	}
 }
