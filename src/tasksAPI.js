@@ -1,14 +1,29 @@
 /**
- * Tasks API
+ * Tasks API config
  * Author: Francis Carelse
  *
  * This module handles configurations
  */
 
+// The tasks API tools to be returned
+const API = module.exports = {};
+
 /**
  * Default database configuration
  */
-export const defaultDB = {
+API.defaultDB = {
+	client: 'sqlite3',
+	connection: {
+		filename: './tasks.sqlite',
+	},
+	useNullAsDefault: true,
+};
+
+/**
+ * Example configuration for MySQL
+ */
+/*
+  {
 	client: "mysql",
 	connection: {
 		host: "127.0.0.1",
@@ -18,39 +33,41 @@ export const defaultDB = {
 		charset: "utf8"
 	}
 };
+*/
+
 
 /**
  * Default Options to be used by router or controller
  */
-export const defaultOptions = {
+API.defaultOptions = {
 	base: "/tasks",
-	configDB: defaultDB
+	configDB: API.defaultDB
 };
 
 /**
  * Default middleware to be used by router or controller
  */
-export const defaultMiddleware = [];
+API.defaultMiddleware = [];
 
 /**
  * Task Statuses
  * List of text names for statuses for Tasks.
  * Statuses exist within each stage of task pipeline
  */
-export const taskStatuses = ["ToDo", "Doing", "Done", "Cancelled"];
+API.taskStatuses = ["ToDo", "Doing", "Done", "Cancelled"];
 
 /**
  * Task Stage
  * List of text names for stages for task pipeline.
  */
-export const taskStages = ["Design", "Develop", "Test", "Deploy"];
+API.taskStages = ["Design", "Develop", "Test", "Deploy"];
 
 /**
  * Task Fields
  * Property key is field name
  * Property value is javascript data type
  */
-export const taskFields = {
+API.taskFields = {
 	id: "number",
 	stage: "string",
 	status: "string",
@@ -64,35 +81,31 @@ export const taskFields = {
  *
  * @param knex Knex type data access object
  */
-export const taskSchema = async knex => {
-	// Check if table exists
-	const exists = await knex.schema.hasTable("tasks");
+API.taskSchema = async (knex) => {
+	// If table does not exist then create it.
+	if (! await knex.schema.hasTable("tasks"))
+	 await knex.schema.createTable("tasks", tasks=>{
+		 tasks.increments("id").primary();
+		 tasks.string("stage", 20);
+		 tasks.string("status", 20);
+		 tasks.string("title", 200);
+		 tasks.text("content");
+	 });
 
-	// Only if table does not exist then create it.
-	if (!exists)
-		await new Promise(resolve => {
-			knex.schema.createTable("tasks", function(tasks) {
-				tasks.increments("id").primary();
-				tasks.string("stage", 20);
-				tasks.string("status", 20);
-				tasks.string("title", 200);
-				tasks.text("content");
-				resolve(true);
-			});
-		});
+	if(! await knex.schema.hasColumn('tasks', 'id'))
+		await knex.schema.table('tasks', tasks=>tasks.increments("id").primary());
 
-	// Verify each critical field exists.
-	await new Promise(resolve => {
-		knex.schema.table("tasks", function(tasks) {
-			(async () => {
-				//Check for each Column
-				if (!(await tasks.hasColumn("id"))) tasks.increments("id").primary();
-				if (!(await tasks.hasColumn("stage"))) tasks.string("stage", 20);
-				if (!(await tasks.hasColumn("status"))) tasks.string("status", 20);
-				if (!(await tasks.hasColumn("title"))) tasks.string("title", 200);
-				if (!(await tasks.hasColumn("content"))) tasks.text("content");
-				resolve(true);
-			})();
-		});
-	});
+	if(! await knex.schema.hasColumn('tasks', 'stage'))
+		await knex.schema.table('tasks', tasks=>tasks.string("stage", 20));
+
+	if(! await knex.schema.hasColumn('tasks', 'status'))
+		await knex.schema.table('tasks', tasks=>tasks.string("status", 20));
+
+	if(! await knex.schema.hasColumn('tasks', 'title'))
+		await knex.schema.table('tasks', tasks=>tasks.string("title", 200));
+
+	if(! await knex.schema.hasColumn('tasks', 'content'))
+		await knex.schema.table('tasks', tasks=>tasks.text("content"));
+
+	return knex;
 };

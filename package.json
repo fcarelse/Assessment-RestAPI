@@ -7,7 +7,7 @@
 		"test": "test"
 	},
 	"scripts": {
-		"test": "jest"
+		"test": "lab"
 	},
 	"repository": {
 		"type": "git",
@@ -26,8 +26,12 @@
 	},
 	"homepage": "https://github.com/fcarelse/Assessment-RestAPI#readme",
 	"dependencies": {
+		"@hapi/code": "^7.0.0",
+		"@hapi/hapi": "^18.4.0",
+		"@hapi/lab": "^21.0.0",
 		"express": "^4.17.1",
 		"jest": "^24.9.0",
-		"knex": "^0.20.0"
+		"knex": "^0.20.0",
+		"sqlite3": "^4.1.0"
 	}
 }

@@ -2,9 +2,11 @@
  * Tasks Router
  * Author: Francis Carelse
  *
+ * This module handles setting up routes in a Hapi server
  */
 
-import tasks from "./tasksController.js";
+const {defaultOptions, defaultMiddleware} = require('./tasksAPI.js');
+const Tasks = require('./tasksController.js');
 
 /**
  * Module returns a builder function.
@@ -14,20 +16,24 @@ import tasks from "./tasksController.js";
  * @param options object // Extra settings
  * @param middleware callback // Optional
  */
-export default function(server, middleware, options) {
+module.exports = async (server, options, middleware) => {
 	// If middleware not supplied then provide default.
 	middleware = middleware || defaultMiddleware;
 
 	// If options not supplied then use default.
 	options = options || defaultOptions;
 
+	// Set up controller
+	const tasks = await Tasks(options);
+
+	console.log('Init');
 	// Create route
 	server.route({
-		method: "PUT",
+		method: "POST",
 		path: options.base + "/",
 		config: {
 			pre: middleware,
-			handler: tasks.create(options)
+			handler: tasks.create
 		}
 	});
 
@@ -37,7 +43,7 @@ export default function(server, middleware, options) {
 		path: options.base + "/{id?}",
 		config: {
 			pre: middleware,
-			handler: tasks.read(options)
+			handler: tasks.read
 		}
 	});
 
@@ -47,7 +53,7 @@ export default function(server, middleware, options) {
 		path: options.base + "/{id?}",
 		config: {
 			pre: middleware,
-			handler: tasks.update(options)
+			handler: tasks.update
 		}
 	});
 
@@ -57,7 +63,7 @@ export default function(server, middleware, options) {
 		path: options.base + "/{id?}",
 		config: {
 			pre: middleware,
-			handler: tasks.delete(options)
+			handler: tasks.delete
 		}
 	});
 
@@ -67,7 +73,7 @@ export default function(server, middleware, options) {
 		path: options.base + "/",
 		config: {
 			pre: middleware,
-			handler: tasks.list(options)
+			handler: tasks.list
 		}
 	});
 
