@@ -12,7 +12,7 @@ Statuses: "ToDo", "Doing", "Done" and "Cancelled"
 
 ## **Usage:**
  ```javascript
-const API = require('./src/tasksAPI.js);
+const API = require('@fcarelse/hapi-api-tasks-rest');
 API.init(server);
 ```
 
@@ -21,7 +21,7 @@ This uses the default database of an sqlite file tasks.sqlite for demo purposes
 ## **Database Config:**
 
  Standard Knex type configuration
- 
+
  E.g. For MySQL
  ```javascript
 {
