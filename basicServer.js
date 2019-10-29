@@ -1,6 +1,6 @@
 'use strict';
 
-const tasksRouter = require('./tasksRouter.js');
+const tasksAPI = require('./src/tasksAPI.js');
 const Hapi = require('@hapi/hapi');
 
 const server = Hapi.server({
@@ -8,14 +8,14 @@ const server = Hapi.server({
 	host: 'localhost'
 });
 
-let routerInit = tasksRouter(server);	
+let initAPI = tasksAPI.init(server);
 
 exports.init = async () => {
-	// If the router needs to be initialized
-	if(routerInit) await routerInit;
+	// If the API needs to be initialized
+	if(initAPI) await initAPI;
 
-	// Make sure router initialization does not run again
-	routerInit = false;
+	// Make sure API initialization does not run again
+	initAPI = false;
 
 	// Initialize the Hapi server.
 	await server.initialize();

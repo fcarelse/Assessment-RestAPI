@@ -1,6 +1,6 @@
 'use strict';
 
-const server = require('./src/basicServer.js');
+const server = require('./basicServer.js');
 
 (async()=>{
 	await server.init();
