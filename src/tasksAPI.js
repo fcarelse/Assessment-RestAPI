@@ -106,8 +106,6 @@ const taskSchema = API.taskSchema = async (knex) => {
 	return knex;
 };
 
-
-
 API.init = async (server, options)=>{
 	// If options not supplied then use default.
 	options = options || defaultOptions;
@@ -116,7 +114,7 @@ API.init = async (server, options)=>{
 	options.middleware = options.middleware || defaultMiddleware;
 
 	// Retrieve of build knex database adaptor
-	let knex = options.knex || Knex(options.configDB);
+	let knex = API.knex = options.knex || Knex(options.configDB);
 
 	// Initialize tasks schema
 	await taskSchema(knex)

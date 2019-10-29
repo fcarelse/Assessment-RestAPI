@@ -16,7 +16,7 @@
 module.exports = async (server, controller, options) => {
 	// Create route
 	server.route({
-		method: "POST",
+		method: ['PUT', 'POST'],
 		path: options.base + "/",
 		config: {
 			pre: options.middleware,

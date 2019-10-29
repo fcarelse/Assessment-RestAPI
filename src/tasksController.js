@@ -58,7 +58,7 @@ module.exports = async (options, knex) => {
 	Ctrl.read = (request, reply) => {
 		return (async () => {
 			// Retrieve the id for the task to return
-			const id = request.query.id;
+			const id = request.params.id;
 
 			// Extract the standard field names
 			const fields = Object.keys(taskFields);
@@ -66,10 +66,13 @@ module.exports = async (options, knex) => {
 			// Catch errors
 			try {
 				// Build a query and execute.
-				const task = await knex('tasks').where({ id }).select(fields);
+				const [task] = await knex('tasks').where({ id }).select(fields);
+
+				// If no task then throw exception
+				if(!task) throw new Exception('No task returned');
 
 				// If no error return the retrieved task and read success status code
-				return reply(task).code(options.readSuccessCode || 200);
+				return reply.response(task).code(options.readSuccessCode || 200);
 
 				// Catch any error
 			} catch (err) {
@@ -84,8 +87,11 @@ module.exports = async (options, knex) => {
 	 */
 	Ctrl.update = (request, reply) => {
 		return (async () => {
-			// Retrieve the input task fields
-			const inputTask = request.payload.task;
+			// Retrieve the id for the task to return
+			const id = request.params.id;
+
+			// Retrieve the updated task fields
+			const inputTask = request.payload instanceof Object? request.payload.task || {}: {};
 
 			// Extract the standard field names
 			const fields = Object.keys(taskFields);
@@ -96,17 +102,21 @@ module.exports = async (options, knex) => {
 				updateTask[field] = inputTask[field];
 			});
 
-			// Extract id
-			const id = updateTask.id;
-
 			// Remove id from fields to update
+			updateTask.id = null; // Ensure it has a value
 			delete updateTask.id;
 
 			// Build a query and execute.
 			await knex('tasks').where("id", "=", id).update(updateTask);
 
-			// Return created task and return update success status code.
-			return reply.response(updateTask).code(options.updateSuccessCode || 204);
+			// Re-read the fields to show change has been made
+			const [task] = await knex('tasks').where({ id }).select(fields);
+
+			// If no task then give error message and code
+			if(!task) return reply.response({ error: 404, message: "Not found" }).code(404);
+
+			// Return update success status code.
+			return reply.response(task).code(options.updateSuccessCode || 204);
 		})();
 	};
 
@@ -116,15 +126,20 @@ module.exports = async (options, knex) => {
 	Ctrl.delete = (request, reply) => {
 		return (async () => {
 			// Retrieve the id for the task to be deleted
-			const id = request.query.id;
+			const id = request.params.id;
 
 			// Catch errors
 			try {
 				// Build a query and execute.
 				const task = await knex('tasks').where({ id }).del();
 
+				console.log('Task:',JSON.stringify(task));
+
+				// If no task then throw exception
+				if(!task) throw new Exception('No task returned');
+
 				// If no error return the retrieved task and read success status code
-				return reply(task).code(options.deleteSuccessCode || 202);
+				return reply.response(task).code(options.deleteSuccessCode || 202);
 
 				// Catch any error
 			} catch (err) {

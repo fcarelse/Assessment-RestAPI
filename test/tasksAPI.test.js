@@ -21,7 +21,22 @@ const server = Hapi.server({
 	host: 'localhost'
 });
 
-describe('Testing Tasks Router', () => {
+const testTask = {
+	status: 'ToDo',
+	stage: 'Design',
+	title: 'Create Test Task',
+	content: 'Test content'
+}
+
+const safePassJson = (string)=>{
+	try{
+		return JSON.parse(string || '{}');
+	}catch(err){
+		return {};
+	}
+}
+
+describe('Testing Tasks API -', () => {
 
 	before(async () => {
 		await tasksAPI.init(server, {
@@ -42,77 +57,137 @@ describe('Testing Tasks Router', () => {
 	});
 
 	describe('Testing undefined paths', () => {
-		const testTask = {
-			status: 'ToDo',
-			stage: 'Design',
-			title: 'Create Test Task',
-			content: 'Test content'
-		}
-
 		it('Create task using invalid path', async () => {
 			const res = await server.inject({
 				method: 'POST',
 				url: '/', // Invalid path
-				payload: { task: testTask }
+				payload: { task: {...testTask} } // Copy the testTask
 			});
 			// The injector returns 201 on success
 			expect(res.statusCode).to.equal(404);
 		});
+
 	});
 
 	describe('Creating Tasks', () => {
 		it('Create task ignoring supplied id', async () => {
-			const testTask = {
-				id: 9999,
-				status: 'ToDo',
-				stage: 'Design',
-				title: 'Create Test Task',
-				content: 'Test content'
-			}
 			const res = await server.inject({
 				method: 'POST',
 				url: '/tasks/',
-				payload: { task: testTask }
+				payload: { task: {id:9999, ...testTask} } // Copy the testTask adding id
 			});
+			// Extract the payload
+			const payload = safePassJson(res.payload);
+			// The id of returned task should not be 9999
+			expect(payload.id).to.not.equal(9999);
 			// The injector returns 201 on success
-			expect(res.payload.id).to.not.equal(9999);
 			expect(res.statusCode).to.equal(201);
 		});
 
 		it('Create task without id', async () => {
-			const testTask = {
-				status: 'ToDo',
-				stage: 'Design',
-				title: 'Create Test Task',
-				content: 'Test content'
-			}
 			const res = await server.inject({
 				method: 'POST',
 				url: '/tasks/',
-				payload:  { task: testTask }
+				payload:  { task: {...testTask} } // Copy the testTask
 			});
+			// Extract the payload
+			const payload = safePassJson(res.payload);
+			// Expect object to be returned
+			expect(payload instanceof Object).to.be.true();
 			// The injector returns 201 on success
 			expect(res.statusCode).to.equal(201);
 		});
+	});
 
+	describe('Reading Tasks', () => {
+		it('Read task using supplied id', async () => {
+			const res = await server.inject({
+				method: 'GET',
+				url: '/tasks/1',
+			});
+			// Extract the payload
+			const payload = safePassJson(res.payload);
+			// Expect object to be returned
+			expect(payload instanceof Object).to.be.true();
+			// Test for id of 1 if there is a returned object
+			if(payload instanceof Object) expect(payload.id).to.equal(1);
+			// The injector returns 200 on success
+			expect(res.statusCode).to.equal(200);
+		});
+
+		it('Get 404 on read with invalid id', async () => {
+			const res = await server.inject({
+				method: 'GET',
+				url: '/tasks/0',
+			});
+			// The injector returns 404 on success
+			expect(res.statusCode).to.equal(404);
+		});
+	});
+
+	describe('Updating Tasks', () => {
+		it('Update task using supplied id', async () => {
+			const res = await server.inject({
+				method: 'PATCH',
+				url: '/tasks/1',
+				payload: { task: {status: 'Cancelled'} }
+			});
+			// Must have knex to check database with
+			expect(tasksAPI.knex instanceof Object).to.be.true();
+			// Block of tests when knex is available
+			if(tasksAPI.knex instanceof Object){
+				// Retrieve task from the database
+				const [task] = await tasksAPI.knex('tasks').where({ id: 1 }).select(['status']);
+				// The database record's status is changed correctly
+				expect(task.status).to.equal('Cancelled');
+			}
+			// The injector returns 204 on success
+			expect(res.statusCode).to.equal(204);
+		});
+
+		it('Get 404 on update with invalid id', async () => {
+			const res = await server.inject({
+				method: 'PATCH',
+				url: '/tasks/0',
+				payload: { task: {status: 'Cancelled'} }
+			});
+			// The injector returns 404 on failure
+			expect(res.statusCode).to.equal(404);
+		});
+	});
+
+	describe('Deleting Tasks', () => {
+		it('Delete task using supplied id', async () => {
+			const res = await server.inject({
+				method: 'DELETE',
+				url: '/tasks/1',
+			});
+			// The injector returns 202 on success
+			expect(res.statusCode).to.equal(202);
+		});
+
+		it('Get 404 on delete with invalid id', async () => {
+			const res = await server.inject({
+				method: 'DELETE',
+				url: '/tasks/0',
+			});
+			// The injector returns 404 on failure
+			expect(res.statusCode).to.equal(404);
+		});
 	});
 
 	describe('Listing Tasks', () => {
-		it('responds with 200', async () => {
+		it('Returns an array and responds with 200', async () => {
 			const res = await server.inject({
 				method: 'GET',
 				url: '/tasks/',
 			});
+			// Extract the payload
+			const payload = safePassJson(res.payload);
+			// Expect array to be returned
+			expect(payload instanceof Array).to.be.true();
+			// The injector returns 200 on success
 			expect(res.statusCode).to.equal(200);
 		});
-
-		it('responds with 404', async () => {
-			const res = await server.inject({
-				method: 'get',
-				url: '/tasks/0'
-			});
-			expect(res.statusCode).to.equal(404);
-		});
-
 	});
 });
