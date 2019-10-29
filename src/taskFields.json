@@ -1,0 +1,7 @@
+{
+	"id": "number",
+	"stage": "string",
+	"status": "string",
+	"title": "string",
+	"content": "string"
+}

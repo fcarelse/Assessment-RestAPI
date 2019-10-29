@@ -4,31 +4,25 @@
  *
  * This module handles tasks API data requests
  */
-const {defaultOptions, defaultDB, taskFields, taskSchema} = require('./tasksAPI.js');
-const Knex = require('knex');
+
+/**
+ * Task Fields
+ * Property key is field name
+ * Property value is javascript data type
+ */
+const taskFields = require('./taskFields.json');
+
 
 // Operator list for validating filters
 const operators = ["=", "<", ">", "<=", ">=", "<>"];
 
-
 /**
  * Tasks Controller factory method
  */
-module.exports = async (options) => {
-	// If options not supplied then use default.
-	options = options || defaultOptions;
-
-	// If Data Access Config not supplied then use default.
-	options.configDB = options.configDB || defaultDB;
+module.exports = async (options, knex) => {
 
 	// Controller to be returned
 	const Ctrl = {};
-
-	// Database Data Access Object
-	let knex = options.knex || Knex(options.configDB);
-
-	// Initialize tasks schema
-	await taskSchema(knex);
 
 	/**
 	 * Handler for Create request

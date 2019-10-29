@@ -5,35 +5,22 @@
  * This module handles setting up routes in a Hapi server
  */
 
-const {defaultOptions, defaultMiddleware} = require('./tasksAPI.js');
-const Tasks = require('./tasksController.js');
-
 /**
  * Module returns a builder function.
  * This creates an express router using the provided midddleware.
  *
  * @param server object // Required, hapi type server
+ * @param controller object // Collection of handlers to use for calls
  * @param options object // Extra settings
- * @param middleware callback // Optional
  */
-module.exports = async (server, options, middleware) => {
-	// If middleware not supplied then provide default.
-	middleware = middleware || defaultMiddleware;
-
-	// If options not supplied then use default.
-	options = options || defaultOptions;
-
-	// Set up controller
-	const tasks = await Tasks(options);
-
-	console.log('Init');
+module.exports = async (server, controller, options) => {
 	// Create route
 	server.route({
 		method: "POST",
 		path: options.base + "/",
 		config: {
-			pre: middleware,
-			handler: tasks.create
+			pre: options.middleware,
+			handler: controller.create
 		}
 	});
 
@@ -42,8 +29,8 @@ module.exports = async (server, options, middleware) => {
 		method: "GET",
 		path: options.base + "/{id?}",
 		config: {
-			pre: middleware,
-			handler: tasks.read
+			pre: options.middleware,
+			handler: controller.read
 		}
 	});
 
@@ -52,8 +39,8 @@ module.exports = async (server, options, middleware) => {
 		method: "PATCH",
 		path: options.base + "/{id?}",
 		config: {
-			pre: middleware,
-			handler: tasks.update
+			pre: options.middleware,
+			handler: controller.update
 		}
 	});
 
@@ -62,8 +49,8 @@ module.exports = async (server, options, middleware) => {
 		method: "DELETE",
 		path: options.base + "/{id?}",
 		config: {
-			pre: middleware,
-			handler: tasks.delete
+			pre: options.middleware,
+			handler: controller.delete
 		}
 	});
 
@@ -72,8 +59,8 @@ module.exports = async (server, options, middleware) => {
 		method: "GET",
 		path: options.base + "/",
 		config: {
-			pre: middleware,
-			handler: tasks.list
+			pre: options.middleware,
+			handler: controller.list
 		}
 	});
 

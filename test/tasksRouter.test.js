@@ -14,6 +14,15 @@ const testDB = path.join(process.cwd(), './testTasks.sqlite');
 // Remove previous test database
 fs.existsSync(testDB) && fs.unlinkSync(testDB);
 
+const testingController = {
+	count: {create: 0, read: 0, update: 0, delete: 0, list: 0},
+	create: () => testingController.count.create++,
+	read: () => testingController.count.read++,
+	update: () => testingController.count.update++,
+	delete: () => testingController.count.delete++,
+	list: () => testingController.count.list++,
+};
+
 // Basic Hapi server. 
 const server = Hapi.server({
 	// Port is irrelevant as will not be started during router testing
@@ -25,6 +34,7 @@ describe('Testing Tasks Router', () => {
 
 	before(async () => {
 		await tasksRouter(server, {
+			testingController,
 			base: '/tasks',
 			configDB: {
 				client: 'sqlite3',
