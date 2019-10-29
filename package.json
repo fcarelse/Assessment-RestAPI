@@ -1,6 +1,6 @@
 {
 	"name": "@fcarelse/hapi-api-tasks-rest",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Task Rest API",
 	"main": "src/tasksAPI.js",
 	"directories": {
