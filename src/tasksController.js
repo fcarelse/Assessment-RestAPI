@@ -48,7 +48,7 @@ module.exports = async (options, knex) => {
 			const id = await knex('tasks').insert(newTask, ["id"]);
 
 			// Return created task and return create success status code.
-			return reply.response({ id, ...newTask }).code(201);
+			return reply.response({ id, ...newTask }).code(options.createSuccessCode || 201);
 		})();
 	};
 
@@ -186,7 +186,7 @@ module.exports = async (options, knex) => {
 				const tasks = await query.select('*');
 
 				// If no error return the retrieved tasks and read success status code
-				return reply.response(tasks).code(options.readSuccessCode || 200);
+				return reply.response(tasks).code(options.listSuccessCode || 200);
 
 				// Catch any error
 			} catch (err) {
