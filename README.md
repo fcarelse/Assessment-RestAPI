@@ -20,7 +20,9 @@ This uses the default database of an sqlite file tasks.sqlite for demo purposes
 
 ## **Database Config:**
 
- E.g. for MySQL
+ Standard Knex type configuration
+ 
+ E.g. For MySQL
  ```javascript
 {
 	client: "mysql",
