@@ -4,7 +4,7 @@ const Hapi = require('@hapi/hapi');
 const Lab = require('@hapi/lab');
 const { expect } = require('@hapi/code');
 const { after, before, describe, it } = exports.lab = Lab.script();
-const tasksRouter = require('../src/tasksRouter.js');
+const tasksAPI = require('../src/tasksAPI.js');
 const fs = require('fs');
 const path = require('path');
 
@@ -24,7 +24,7 @@ const server = Hapi.server({
 describe('Testing Tasks Router', () => {
 
 	before(async () => {
-		await tasksRouter(server, {
+		await tasksAPI.init(server, {
 			base: '/tasks',
 			configDB: {
 				client: 'sqlite3',
