@@ -7,6 +7,7 @@ Uses Hapi servers and extends the server with a set of routes for the REST imple
 Tasks have stages and statuses as well as a title and content
 
 Stages: "design", "develop", "test" and "deploy"
+
 Statuses: "todo", "doing", "done" and "cancel"
 
 ## **Usage:**

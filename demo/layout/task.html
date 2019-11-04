@@ -1,36 +1,36 @@
 <form ng-init="sys.initTaskForm()" id="formTask" name="formTask" style="padding: 10px">
-  <div class="form-group">
-    <label for="demoTaskTitle">Task Title</label>
-    <input ng-model="data.task.title" type="text" class="form-control" required
+	<div class="form-group">
+		<label for="demoTaskTitle">Task Title</label>
+		<input ng-model="data.task.title" type="text" class="form-control" required
 			id="demoTaskTitle" aria-describedby="taskTitleInfo" placeholder="Task Title">
-    <small id="taskTitleInfo" class="form-text text-muted">Brief title for the task</small>
-  </div>
-  <div class="form-group">
-    <label for="demoTaskContent">Task Description</label>
-    <input ng-model="data.task.content" type="text" class="form-control" required
+		<small id="taskTitleInfo" class="form-text text-muted">Brief title for the task</small>
+	</div>
+	<div class="form-group">
+		<label for="demoTaskContent">Task Description</label>
+		<input ng-model="data.task.content" type="text" class="form-control" required
 			id="demoTaskContent" aria-describedby="taskContentInfo" placeholder="Task Description">
-    <small id="taskContentInfo" class="form-text text-muted">Details of the task</small>
-  </div>
-  <div class="form-group">
-    <label id="taskStage" for="demoTaskStage">Stage</label>
-		<select ng-model="data.task.stage" name="demoTaskStage" id="taskStage" class="form-control"
+		<small id="taskContentInfo" class="form-text text-muted">Details of the task</small>
+	</div>
+	<div class="form-group">
+		<label id="taskStage" for="demoTaskStage">Stage</label>
+		<select ng-model="data.task.stage" name="demoTaskStage" class="form-control"
 			ng-options="stage for stage in sys.Tasks.stages" required
-			 aria-describedby="taskStageInfo">
+			id="taskStage" aria-describedby="taskStageInfo">
 			<option value="">Choose a stage</option>
 		</select>
-    <small id="taskContent" class="form-text text-muted">Stage of development</small>
-  </div>
-  <div class="form-group">
-    <label id="taskStatus" for="demoTaskStatus">Status</label>
+		<small id="taskContent" class="form-text text-muted">Stage of development</small>
+	</div>
+	<div class="form-group">
+		<label id="taskStatus" for="demoTaskStatus">Status</label>
 		<select ng-model="data.task.status" name="demoTaskStatus" id="taskStatus" class="form-control"
 			ng-options="status for status in data.statusOptions" required
 			aria-describedby="taskStatusInfo">
 			<option value="">Choose a status</option>
 		</select>
-    <small id="taskContent" class="form-text text-muted">Status within the stage</small>
-  </div>
+		<small id="taskContent" class="form-text text-muted">Status within the stage</small>
+	</div>
 	<input type="hidden" ng-pattern="true" required >
-  <a ng-click="sys.submit(formTask)" class="btn btn-primary" ng-init="sys.formTask = formTask">
+	<a ng-click="sys.submit(formTask)" class="btn btn-primary" ng-init="sys.formTask = formTask">
 		{{data.task.id?'Update':'Create'}}
 	</a>
 </form>
