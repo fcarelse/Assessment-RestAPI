@@ -53,6 +53,7 @@ E.g. API.init(server, options)
 
 Requirements:
  - Node version min 10.x 'https://nodejs.org/'
+ - Git 'https://git-scm.com/downloads'
 
 Install:
 > `git clone https://github.com/fcarelse/Assessment-RestAPI.git`
