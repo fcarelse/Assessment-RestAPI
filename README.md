@@ -1,4 +1,3 @@
-
 # Rest Tasks API (Assessment)
 
 Rest API extendable through middleware and options
@@ -49,4 +48,16 @@ E.g. API.init(server, options)
  - options.updateSuccessCode= code to use for successful create operation. Defaults to 204.
  - options.deleteSuccessCode= code to use for successful create operation. Defaults to 202.
  - options.listSuccessCode= code to use for successful create operation. Defaults to 200.
+
+## **Demo:**
+
+Requirements:
+ - Node version min 10.x 'https://nodejs.org/'
+
+Install:
+> `npm install`
+
+Run Demo:
+> `npm start`
+Then to open browser at 'http://localhost:3000/'
 
