@@ -72,3 +72,7 @@ th.done{
 a small{
 	text-transform: capitalize;
 }
+
+.pointer{
+	cursor: pointer
+}
