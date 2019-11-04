@@ -58,13 +58,13 @@ const defaultMiddleware = API.defaultMiddleware = [];
  * List of text names for statuses for Tasks.
  * Statuses exist within each stage of task pipeline
  */
-API.taskStatuses = ["ToDo", "Doing", "Done", "Cancelled"];
+API.taskStatuses = ["todo", "doing", "done", "cancelled"];
 
 /**
  * Task Stage
  * List of text names for stages for task pipeline.
  */
-API.taskStages = ["Design", "Develop", "Test", "Deploy"];
+API.taskStages = ["design", "develop", "test", "deploy"];
 
 /**
  * Task Schema

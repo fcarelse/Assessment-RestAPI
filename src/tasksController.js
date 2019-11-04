@@ -30,7 +30,7 @@ module.exports = async (options, knex) => {
 	Ctrl.create = (request, reply) => {
 		return (async () => {
 			// Retrieve the input task fields
-			const inputTask = request.payload instanceof Object? request.payload.task || {}: {};
+			const inputTask = request.payload instanceof Object? request.payload || {}: {};
 
 			// Extract the standard field names
 			const fields = Object.keys(taskFields);
@@ -91,7 +91,7 @@ module.exports = async (options, knex) => {
 			const id = request.params.id;
 
 			// Retrieve the updated task fields
-			const inputTask = request.payload instanceof Object? request.payload.task || {}: {};
+			const inputTask = request.payload instanceof Object? request.payload || {}: {};
 
 			// Extract the standard field names
 			const fields = Object.keys(taskFields);

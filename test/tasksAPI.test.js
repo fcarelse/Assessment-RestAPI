@@ -22,9 +22,9 @@ const server = Hapi.server({
 });
 
 const testTask = {
-	status: 'ToDo',
-	stage: 'Design',
-	title: 'Create Test Task',
+	status: 'todo',
+	stage: 'design',
+	title: 'Test Task',
 	content: 'Test content'
 }
 

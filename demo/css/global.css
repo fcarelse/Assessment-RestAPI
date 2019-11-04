@@ -1,0 +1,54 @@
+select.ng-invalid-required, input.ng-invalid-required, textarea.ng-invalid-required {
+	border: 1px solid #c00;
+}
+
+th{
+	height: 50px;
+	background: lightgrey;
+	text-align: center;
+}
+
+td{
+	width: 100px;
+}
+
+.card{
+	text-align: center;
+	margin: 5px;
+	padding: 5px;
+	border: 1px solid grey;
+}
+.card{
+	text-align: center;
+	margin: 5px;
+	padding: 5px;
+	border: 1px solid grey;
+}
+
+.card.todo{
+	background: lightblue;
+}
+.card.doing{
+	background: lightgreen;
+}
+.card.done{
+	background: lightseagreen;
+}
+
+th.todo{
+	background: rgb(231, 123, 103);
+}
+th.doing{
+	background: rgb(240, 159, 38);
+}
+th.done{
+	background: rgb(28, 177, 48);
+}
+
+.todo, .doing{
+	border-right: 1px solid lightgrey
+}
+
+.done{
+	border-right: 1px solid black
+}
