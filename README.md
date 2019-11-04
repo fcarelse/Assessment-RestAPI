@@ -63,5 +63,5 @@ Then open browser at 'http://localhost:3000/'
 
 Reset data:
 > At the top right, on the main navigation bar on the page is an option "Reset" to reset the task list.
-> In the list view there is also a tab bar to switch between Kanban-board view and Todo-list view
+> In the list view there is also a tab bar to switch between Kanban-board view and Todo-list view.
 > Clicking on an item will open it for editting in a basic form.
