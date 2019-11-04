@@ -59,5 +59,5 @@ Install:
 
 Run Demo:
 > `npm start`
-Then to open browser at 'http://localhost:3000/'
+Then open browser at 'http://localhost:3000/'
 
