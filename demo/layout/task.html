@@ -23,12 +23,14 @@
   <div class="form-group">
     <label id="taskStatus" for="demoTaskStatus">Status</label>
 		<select ng-model="data.task.status" name="demoTaskStatus" id="taskStatus" class="form-control"
-			ng-options="status for status in sys.Tasks.statuses" required
+			ng-options="status for status in data.statusOptions" required
 			aria-describedby="taskStatusInfo">
 			<option value="">Choose a status</option>
 		</select>
     <small id="taskContent" class="form-text text-muted">Status within the stage</small>
   </div>
 	<input type="hidden" ng-pattern="true" required >
-  <a ng-disabled="formTask.$invalid" ng-click="formTask.$valid && sys.submit(formTask)" class="btn btn-primary">{{data.task.id?'Update':'Create'}}</a>
+  <a ng-click="sys.submit(formTask)" class="btn btn-primary" ng-init="sys.formTask = formTask">
+		{{data.task.id?'Update':'Create'}}
+	</a>
 </form>

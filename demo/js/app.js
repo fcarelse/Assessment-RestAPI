@@ -5,7 +5,7 @@ var data = {}; // Global data
 var sys = {}; // Global system
 
 // Defining the demo app.
-var app = angular.module('demo', ['ngResource', 'ngRoute']);
+var app = angular.module('demo', ['ngResource']);
 
 // Just fixing some default behaviour to help work with REST.
 app.config(['$resourceProvider', function($resourceProvider) {

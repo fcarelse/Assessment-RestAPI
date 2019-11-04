@@ -114,7 +114,7 @@ API.init = async (server, options)=>{
 	options.middleware = options.middleware || defaultMiddleware;
 
 	// Retrieve of build knex database adaptor
-	let knex = API.knex = options.knex || Knex(options.configDB);
+	let knex = API.knex = server.knex = options.knex || Knex(options.configDB);
 
 	// Initialize tasks schema
 	await taskSchema(knex)

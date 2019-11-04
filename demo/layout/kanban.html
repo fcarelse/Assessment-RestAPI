@@ -1,5 +1,23 @@
-	<table class="table table-stripped">
-		<tr>
-			<th ng-repeat="stage"></th>
-		</tr>
-	</table>
+<table class="table" style="height: calc(100vh - 90px)">
+	<tr>
+		<th colspan="3" ng-repeat="stage in sys.Tasks.stages" class="{{stage}} title">
+			{{stage}}
+		</th>
+	</tr>
+	<tr>
+		<th ng-repeat="ss in sys.Tasks.stageStatuses" class="{{ss.stage}} {{ss.status}}">
+			{{ss.status}}
+		</th>
+	</tr>
+	<tr>
+		<td ng-repeat="ss in sys.Tasks.stageStatuses" class="{{ss.stage}} {{ss.status}}">
+			<card class="card {{ss.status}}"
+				ng-click="sys.Tasks.load(task.id)"
+				ng-repeat="task in data[ss.stage][ss.status]"
+				title="{{task.title}}: {{task.content}}">
+				<h6 class="card-title">{{task.title}}</h6>
+				<p class="card-text">{{task.content}}</p>
+ 			</card>
+		</td>
+	</tr>
+</table>

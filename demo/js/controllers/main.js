@@ -10,6 +10,8 @@ app.controller('Main', ['Tasks', '$rootScope', '$scope', function (Tasks, $rootS
 		kanban: 'Kanban Board',
 	}
 
+	data.statusOptions = ['todo','doing','done','cancel'];
+
 	var applyQueued;
 	$rootScope.safeApply = sys.safeApply = function(){
 		if(!$rootScope.$$phase){
@@ -51,5 +53,10 @@ app.controller('Main', ['Tasks', '$rootScope', '$scope', function (Tasks, $rootS
 		sys.Tasks.new();
 		data.page = 'task';
 	}
+
+	sys.reset = function(){
+		if(!confirm('Are you sure you want to reset the data for this Todo API Demo?')) return;
+		fetch('/reset').then(sys.Tasks.reload);
+	};
 
 }]);

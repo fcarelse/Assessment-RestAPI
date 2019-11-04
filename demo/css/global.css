@@ -2,6 +2,15 @@ select.ng-invalid-required, input.ng-invalid-required, textarea.ng-invalid-requi
 	border: 1px solid #c00;
 }
 
+.centered{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+h6{
+	font-weight: bold;
+}
+
 th{
 	height: 50px;
 	background: lightgrey;
@@ -12,6 +21,10 @@ td{
 	width: 100px;
 }
 
+.card-text{
+	background
+}
+
 .card{
 	text-align: center;
 	margin: 5px;
@@ -25,14 +38,17 @@ td{
 	border: 1px solid grey;
 }
 
-.card.todo{
-	background: lightblue;
+.card.todo .card-title{
+	background: rgba(231, 122, 103, 0.5);
+	padding: 5px;
 }
-.card.doing{
-	background: lightgreen;
+.card.doing .card-title{
+	background: rgba(240, 159, 38, 0.486);
+	padding: 5px;
 }
-.card.done{
-	background: lightseagreen;
+.card.done .card-title{
+	background: rgba(28, 177, 48, 0.459);
+	padding: 5px;
 }
 
 th.todo{
@@ -51,4 +67,8 @@ th.done{
 
 .done{
 	border-right: 1px solid black
+}
+
+a small{
+	text-transform: capitalize;
 }

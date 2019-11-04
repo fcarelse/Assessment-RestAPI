@@ -1,28 +1,11 @@
-<table class="table" style="height: 100vh">
-	<tr>
-		<th colspan="3" ng-repeat="stage in sys.Tasks.stages" class="{{stage}} title">
-			{{stage}}
-		</th>
-	</tr>
-	<tr>
-		<th ng-repeat="ss in sys.Tasks.stageStatuses" class="{{ss.stage}} {{ss.status}}">
-			{{ss.status}}
-		</th>
-	</tr>
-	<tr>
-		<td ng-repeat="ss in sys.Tasks.stageStatuses" class="{{ss.stage}} {{ss.status}}">
-			<div class="card {{ss.status}}"
-				ng-click="sys.Tasks.load(task.id)"
-				ng-repeat="task in data[ss.stage][ss.status]"
-				title="{{task.title}}: {{task.content}}">
-				{{task.title}}				
- 			</div>
-		</td>
-	</tr>
-</table>
+<ul class="nav nav-tabs centered">
+  <li class="nav-item">
+    <a class="nav-link {{data.listType!='todo'?'active':''}}" ng-click="data.listType='kanban'">Kanban Board</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {{data.listType=='todo'?'active':''}}" ng-click="data.listType='todo'">Todo List</a>
+  </li>
+</ul>
 
-<div nng-show="data.tasks" class="ng-hide">
-	<ul>
-		<li ng-repeat="task in data.tasks">{{task.id}}: {{task.title}} <a class="btn" ng-click="sys.Tasks.load(task.id)">Edit</a> <a class="btn" ng-click="sys.delTask(task)">Delete</a></li>
-	</ul>
-</div>
+
+	<div ng-include="data.listType=='todo'?'layout/todo.html':'layout/kanban.html'"></div>
