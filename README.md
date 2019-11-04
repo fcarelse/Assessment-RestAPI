@@ -55,6 +55,8 @@ Requirements:
  - Node version min 10.x 'https://nodejs.org/'
 
 Install:
+> `git clone https://github.com/fcarelse/Assessment-RestAPI.git`
+> `cd Assessment-RestAPI`
 > `npm install`
 
 Run Demo:
